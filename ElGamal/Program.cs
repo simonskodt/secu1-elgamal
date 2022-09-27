@@ -26,7 +26,7 @@ BigInteger secretKey = -1; // initial value set to -1
 
 for (BigInteger i = 1; i <= 6661; i++)
 {
-    BigInteger temp = BigInteger.ModPow(e.SharedBase, i, e.SharedPrime);
+    var temp = BigInteger.ModPow(e.SharedBase, i, e.SharedPrime);
     if (temp == e.PublicKey)
         secretKey = i;
 }
