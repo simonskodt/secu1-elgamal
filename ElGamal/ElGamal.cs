@@ -1,47 +1,55 @@
+using System.Numerics;
+
 /// <summary>
 /// This class contains the shared base and prime as well as the public key.
 /// Also, the API of the encryption and decryption is placed in this class.
-/// </summary>  
+/// </summary>
 public class ElGamal
 {
     private Random _random;
-    public int Generator { get; }
-    public int SharedPrime { get; }
-    public int PublicKey { get; private set; }
-    private int _c1;
-    private int _c2;
+    public BigInteger SharedBase { get; }
+    public BigInteger SharedPrime { get; }
+    public BigInteger PublicKey { get; private set; }
+    public BigInteger C1 { get; set; }
+    public BigInteger C2 { get; set; }
 
-    public ElGamal(int geneator = 666, int sharedPrime = 6661, int publicKey = 227)
+    public ElGamal(BigInteger generator, BigInteger sharedPrime, BigInteger publicKey)
     {
-        _random = new Random();
-        this.Generator = geneator;
+        _random          = new Random();
+        this.SharedBase  = generator;
         this.SharedPrime = sharedPrime;
-        this.PublicKey = publicKey;
+        this.PublicKey   = publicKey;
     }
 
     /// <summary>
-    /// Generating a public key.
+    /// Initially, choosing a random r.
+    /// Then compute C1 and C2, and output the respective values as a BigInteger tuple.
     /// </summary>
-    public void generatePK()
+    public (BigInteger, BigInteger) Encryption(BigInteger plainText)
     {
-        this.PublicKey = (int) _c1 % Generator;
+        BigInteger randomVal = _random.Next(1, 6661);
+        (C1, C2) = CalculateC(randomVal, plainText);
+        return (C1, C2);
     }
 
     /// <summary>
-    /// First chossing a random r.
-    /// Then compute c1 and c2 and output the respective values as a tuple.
+    /// Set the numerator and denominator, and return a the BigInteger fraction.
     /// </summary>
-    public (int, int) Encryption(int msg)
+    public BigInteger Decryption(BigInteger secretKey)
     {
-        int r = _random.Next();
-        _c1 = (int) Math.Pow(Generator, r);
-        _c2 = (int) msg * (int) Math.Pow(PublicKey, r);
-        return (_c1, _c2);
+        BigInteger numerator   = C2;
+        BigInteger denominator = BigInteger.ModPow(C1, secretKey, SharedPrime);
+        return numerator / denominator;
     }
-
-    public int Decryption()
+    
+    /// <summary>
+    /// Calculate C1 and C2, and return as a BigInteger tuple.
+    /// </summary>
+    private (BigInteger, BigInteger) CalculateC(BigInteger randomVal, BigInteger plainText) 
     {
-        return 0;
+        BigInteger c1 = BigInteger.ModPow(SharedBase, randomVal, SharedPrime);
+        BigInteger c2 = plainText * BigInteger.ModPow(PublicKey, randomVal, SharedPrime);
+        return (c1, c2);
     }
 }
 
