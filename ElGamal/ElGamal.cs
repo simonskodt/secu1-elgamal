@@ -33,7 +33,7 @@ public class ElGamal
     }
 
     /// <summary>
-    /// Set the numerator and denominator, and return a the BigInteger fraction.
+    /// Set the numerator and denominator, and return the BigInteger fraction.
     /// </summary>
     public BigInteger Decryption(BigInteger secretKey)
     {
