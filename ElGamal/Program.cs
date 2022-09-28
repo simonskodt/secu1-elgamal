@@ -24,7 +24,7 @@ Console.WriteLine($"\tCYPHERTEXT :: {encryption}");
 /// </summary>
 BigInteger secretKey = -1; // initial value set to -1
 
-for (BigInteger i = 1; i <= 6661; i++)
+for (BigInteger i = 0; i < 6661; i++)
 {
     var temp = BigInteger.ModPow(e.SharedBase, i, e.SharedPrime);
     if (temp == e.PublicKey)

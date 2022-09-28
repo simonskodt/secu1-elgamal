@@ -27,7 +27,7 @@ public class ElGamal
     /// </summary>
     public (BigInteger, BigInteger) Encryption(BigInteger plainText)
     {
-        BigInteger randomVal = _random.Next(1, 6661);
+        BigInteger randomVal = _random.Next(0, 6661);
         (C1, C2) = CalculateC(randomVal, plainText);
         return (C1, C2);
     }
