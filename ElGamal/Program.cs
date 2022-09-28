@@ -43,7 +43,6 @@ Console.WriteLine($"\tPLAINTEXT  :: {decryption}");
 /// Hence, multiply the numerator (C2) with 3.
 /// </summary>
 e.C2 = (BigInteger.Multiply(e.C2, 3));
-Console.WriteLine(e.C2);
 decryption = e.Decryption(secretKey);
 
 SetConsoleColorForExercise("3 :: Modifying Alice's message.");
