@@ -37,9 +37,8 @@ public class ElGamal
     /// </summary>
     public BigInteger Decryption(BigInteger secretKey)
     {
-        BigInteger numerator   = C2;
-        BigInteger denominator = BigInteger.ModPow(C1, secretKey, SharedPrime);
-        return numerator / denominator;
+        BigInteger m = (C2 * ((BigInteger.ModPow(C1, (SharedPrime - 1 - secretKey) , SharedPrime)))) % SharedPrime;
+        return m;
     }
     
     /// <summary>
@@ -48,7 +47,7 @@ public class ElGamal
     private (BigInteger, BigInteger) CalculateC(BigInteger randomVal, BigInteger plainText) 
     {
         BigInteger c1 = BigInteger.ModPow(SharedBase, randomVal, SharedPrime);
-        BigInteger c2 = plainText * BigInteger.ModPow(PublicKey, randomVal, SharedPrime);
+        BigInteger c2 = (plainText * BigInteger.Pow(PublicKey, (int) randomVal)) % SharedPrime;
         return (c1, c2);
     }
 }
